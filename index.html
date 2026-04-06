@@ -102,13 +102,11 @@
                             <p class="showcase-panel-text">
                                 Stworzyliśmy tę platformę, aby dać każdemu biegaczowi dostęp do narzędzi i wzorców, z których korzystają profesjonaliści. Wprowadź swoje aktualne parametry, a nasz algorytm wyznaczy bezpieczną i skuteczną ścieżkę treningową, w 100% dopasowaną do Twojego unikalnego profilu motorycznego.
                             </p>
-                            <a href="bieganie/bieganie.html" class="btn-generate" aria-label="Rozpocznij diagnozę">
-                                <span class="material-symbols-outlined" aria-hidden="true">speed</span>
-                                Rozpocznij Diagnozę
-                            </a>
                         </div>
-                        <div class="showcase-panel-visual" aria-hidden="true">
-                            <span class="material-symbols-outlined" style="font-size: 120px; color: var(--md-sys-color-primary); opacity: 0.8;">trending_up</span>
+                        <div class="showcase-panel-visual">
+                            <a href="bieganie/bieganie.html" class="btn-generate showcase-panel-cta-visual" aria-label="Zaplanuj swój trening">
+                                zaplanuj swój trening
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -123,13 +121,11 @@
                                 wysiłkowe do specyfiki dyscypliny i jak run_index wspiera ocenę
                                 wydolności w planowaniu mikrocykli.
                             </p>
-                            <a href="bieganie/bieganie.html" class="btn-generate" aria-label="Rozpocznij diagnozę">
-                                <span class="material-symbols-outlined" aria-hidden="true">speed</span>
-                                Rozpocznij Diagnozę
-                            </a>
                         </div>
-                        <div class="showcase-panel-visual" aria-hidden="true">
-                            <span class="material-symbols-outlined" style="font-size: 120px; color: var(--md-sys-color-primary); opacity: 0.8;">pedal_bike</span>
+                        <div class="showcase-panel-visual">
+                            <a href="bieganie/bieganie.html" class="btn-generate showcase-panel-cta-visual" aria-label="Zaplanuj swój trening">
+                                zaplanuj swój trening
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -222,7 +218,6 @@
                     const idx = tabs.indexOf(t);
                     if (idx < 0) return;
                     applyTabSelection(tabs, idx);
-                    t.focus();
                 } catch (err) {
                     console.warn('[hero-showcase-tabs] click', err);
                 }
