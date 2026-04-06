@@ -1956,10 +1956,10 @@
             text-align: center;
             justify-content: center;
             cursor: pointer;
-            color: var(--muted);
-            background-color: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-on-surface-variant, var(--muted));
+            background-color: color-mix(in srgb, var(--md-sys-color-surface-container) 88%, transparent);
             box-shadow: none;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
             display: flex;
             align-items: center;
         }
@@ -1968,8 +1968,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            opacity: 0.5;
-            filter: grayscale(1);
+            opacity: 0.86;
             transition: all 0.3s ease;
         }
 
@@ -1984,8 +1983,7 @@
         }
 
 .showcase-tablist button:hover:not([aria-selected="true"]) .showcase-tab-brand {
-            opacity: 0.8;
-            filter: grayscale(0.5);
+            opacity: 1;
         }
 
         .showcase-tablist button[aria-selected="true"]:hover {
@@ -2012,7 +2010,43 @@
 
 .showcase-tablist button[aria-selected="true"] .showcase-tab-brand {
             opacity: 1;
-            filter: grayscale(0);
+        }
+
+        /* Bardziej żywe akcenty zgodne z Material Design 3 */
+        #showcase-tab-1 {
+            color: var(--md-sys-color-primary);
+        }
+
+        #showcase-tab-2 {
+            color: var(--md-sys-color-tertiary, var(--md-sys-color-primary));
+        }
+
+        #showcase-tab-1:hover:not([aria-selected="true"]) {
+            background-color: color-mix(in srgb, var(--md-sys-color-primary-container) 55%, var(--md-sys-color-surface-container));
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        #showcase-tab-2:hover:not([aria-selected="true"]) {
+            background-color: color-mix(in srgb, var(--md-sys-color-tertiary-container, var(--md-sys-color-primary-container)) 55%, var(--md-sys-color-surface-container));
+            color: var(--md-sys-color-on-tertiary-container, var(--md-sys-color-on-primary-container));
+        }
+
+        #showcase-tab-1[aria-selected="true"] {
+            color: var(--md-sys-color-on-primary-container);
+            background-color: var(--md-sys-color-primary-container);
+        }
+
+        #showcase-tab-2[aria-selected="true"] {
+            color: var(--md-sys-color-on-tertiary-container, var(--md-sys-color-on-primary-container));
+            background-color: var(--md-sys-color-tertiary-container, var(--md-sys-color-primary-container));
+        }
+
+        #showcase-tab-1[aria-selected="true"] .showcase-tab-logo {
+            color: var(--md-sys-color-primary);
+        }
+
+        #showcase-tab-2[aria-selected="true"] .showcase-tab-logo {
+            color: var(--md-sys-color-tertiary, var(--md-sys-color-primary));
         }
 
         .showcase-panel {
@@ -2030,7 +2064,7 @@
             padding: 40px;
             background-color: var(--md-sys-color-surface);
             border: 1px solid var(--border);
-            border-top: 1px solid var(--border);
+            border-top: 0;
             border-radius: 0 0 16px 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
