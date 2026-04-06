@@ -1947,6 +1947,8 @@
 
         .showcase-tablist button {
             font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
             font-size: 0.9375rem;
             font-weight: 500;
             flex: 1;
@@ -1966,6 +1968,8 @@
             transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
             display: flex;
             align-items: center;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
 .showcase-tab-brand {
@@ -1986,6 +1990,10 @@
             letter-spacing: 0.2px;
         }
 
+        #showcase-tab-1 .showcase-tab-label {
+            font-size: 1.2em;
+        }
+
 .showcase-tablist button:hover:not([aria-selected="true"]) .showcase-tab-brand {
             opacity: 1;
         }
@@ -2000,6 +2008,11 @@
         .showcase-tablist button:focus-visible {
             outline: 2px solid var(--md-sys-color-outline-variant);
             outline-offset: 2px;
+        }
+
+        .showcase-tablist button:active {
+            background-color: var(--md-sys-color-tertiary-container);
+            border-color: var(--border);
         }
 
         .showcase-tablist button[aria-selected="true"] {
