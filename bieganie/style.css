@@ -19,6 +19,10 @@
             --md-sys-color-surface: #FFFFFF;
             --md-sys-color-surface-container: #F0F4F9; /* Tło panelu bocznego */
             --md-sys-color-outline: #70777C;
+            --md-sys-color-tertiary-container: #E8DCCB;
+            --md-sys-color-on-tertiary-container: #3F3428;
+            --md-sys-color-surface-container-high: #DCCDB8;
+            --md-sys-color-outline-variant: #B8A892;
             
             /* --- MOSTEK Z TYM CO JUŻ MASZ --- */
             --bg: var(--md-sys-color-background);
@@ -1947,19 +1951,19 @@
             font-weight: 500;
             flex: 1;
             box-sizing: border-box;
-            min-height: 48px;
+            min-height: 96px;
             min-width: 48px;
-            padding: 10px 20px;
+            padding: 24px 20px;
             border: 1px solid transparent;
             border-bottom: none;
             border-radius: 16px 16px 0 0;
             text-align: center;
             justify-content: center;
             cursor: pointer;
-            color: var(--md-sys-color-on-surface-variant, var(--muted));
-            background-color: color-mix(in srgb, var(--md-sys-color-surface-container) 88%, transparent);
+            color: var(--md-sys-color-on-tertiary-container);
+            background-color: var(--md-sys-color-surface-container-high);
             box-shadow: none;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
             display: flex;
             align-items: center;
         }
@@ -1987,21 +1991,21 @@
         }
 
         .showcase-tablist button[aria-selected="true"]:hover {
-            color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-tertiary-container);
             background-color: var(--md-sys-color-surface);
             border-color: var(--border);
             border-bottom: 2px solid var(--md-sys-color-surface);
         }
 
         .showcase-tablist button:focus-visible {
-            outline: 2px solid var(--md-sys-color-primary);
+            outline: 2px solid var(--md-sys-color-outline-variant);
             outline-offset: 2px;
         }
 
         .showcase-tablist button[aria-selected="true"] {
             position: relative;
             z-index: 3;
-            color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-tertiary-container);
             background-color: var(--md-sys-color-surface);
             border: 1px solid var(--border);
             border-bottom: 2px solid var(--md-sys-color-surface);
@@ -2012,41 +2016,41 @@
             opacity: 1;
         }
 
-        /* Bardziej żywe akcenty zgodne z Material Design 3 */
+        /* Beżowe stany zakładek (MD3, premium B2B) */
         #showcase-tab-1 {
-            color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-tertiary-container);
         }
 
         #showcase-tab-2 {
-            color: var(--md-sys-color-tertiary, var(--md-sys-color-primary));
+            color: var(--md-sys-color-on-tertiary-container);
         }
 
         #showcase-tab-1:hover:not([aria-selected="true"]) {
-            background-color: color-mix(in srgb, var(--md-sys-color-primary-container) 55%, var(--md-sys-color-surface-container));
-            color: var(--md-sys-color-on-primary-container);
+            background-color: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
         }
 
         #showcase-tab-2:hover:not([aria-selected="true"]) {
-            background-color: color-mix(in srgb, var(--md-sys-color-tertiary-container, var(--md-sys-color-primary-container)) 55%, var(--md-sys-color-surface-container));
-            color: var(--md-sys-color-on-tertiary-container, var(--md-sys-color-on-primary-container));
+            background-color: var(--md-sys-color-tertiary-container);
+            color: var(--md-sys-color-on-tertiary-container);
         }
 
         #showcase-tab-1[aria-selected="true"] {
-            color: var(--md-sys-color-on-primary-container);
-            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-tertiary-container);
+            background-color: var(--md-sys-color-surface);
         }
 
         #showcase-tab-2[aria-selected="true"] {
-            color: var(--md-sys-color-on-tertiary-container, var(--md-sys-color-on-primary-container));
-            background-color: var(--md-sys-color-tertiary-container, var(--md-sys-color-primary-container));
+            color: var(--md-sys-color-on-tertiary-container);
+            background-color: var(--md-sys-color-surface);
         }
 
         #showcase-tab-1[aria-selected="true"] .showcase-tab-logo {
-            color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-tertiary-container);
         }
 
         #showcase-tab-2[aria-selected="true"] .showcase-tab-logo {
-            color: var(--md-sys-color-tertiary, var(--md-sys-color-primary));
+            color: var(--md-sys-color-on-tertiary-container);
         }
 
         .showcase-panel {
@@ -2097,17 +2101,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: var(--md-sys-color-surface-container);
             border-radius: 24px;
             aspect-ratio: 1;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg,
+                var(--md-sys-color-surface-container) 0%,
+                color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent) 100%
+            );
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow:
+                0 12px 32px color-mix(in srgb, var(--text) 4%, transparent),
+                inset 0 2px 4px rgba(255, 255, 255, 0.4);
         }
 
         .showcase-quote {
-            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-            font-weight: 700;
+            font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+            font-weight: 500;
+            font-style: italic;
             color: var(--text);
-            line-height: 1.4;
+            line-height: 1.45;
+            letter-spacing: -0.01em;
             margin: 0;
+            position: relative;
         }
 
         .showcase-panel:not([hidden]) .showcase-panel-content {
