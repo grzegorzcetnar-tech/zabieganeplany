@@ -1999,6 +1999,10 @@
             font-size: 1.2em;
         }
 
+        #showcase-tab-2 .showcase-tab-label {
+            font-size: 1.2em;
+        }
+
 .showcase-tablist button:hover:not([aria-selected="true"]) .showcase-tab-brand {
             opacity: 1;
         }
@@ -2113,6 +2117,7 @@
             flex-direction: column;
             gap: 24px;
             align-items: flex-start;
+            width: 100%;
         }
 
         .showcase-panel-visual {
@@ -2171,9 +2176,19 @@
         .showcase-panel-text {
             font-size: 1rem;
             color: var(--muted);
-            line-height: 1.6;
+            line-height: 1.65;
             margin: 0;
-            max-width: 36ch;
+            margin-top: 1.25rem;
+            margin-right: auto;
+            box-sizing: border-box;
+            /* Lewa krawędź w linii z początkiem cytatu, prawa — do połowy szerokości kolumny */
+            width: 50%;
+            max-width: 50%;
+            align-self: flex-start;
+            text-align: justify;
+            text-justify: inter-word;
+            hyphens: auto;
+            -webkit-hyphens: auto;
         }
 
         .showcase-panel .btn-generate {
@@ -2249,6 +2264,15 @@
 
             .showcase-panel-text-block {
                 align-items: center;
+            }
+
+            .showcase-panel-text {
+                width: 100%;
+                max-width: 100%;
+                margin-top: 1rem;
+                margin-right: 0;
+                align-self: stretch;
+                text-align: justify;
             }
         }
 
