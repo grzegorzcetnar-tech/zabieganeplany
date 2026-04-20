@@ -36,8 +36,52 @@
             return getVolumeStatus(distance, vol);
         }
 
+// =======================================================
+        // FEATURE TOGGLES — Profile treningowe ("Filozofia treningu")
+        // Przełącz na `true`, aby przywrócić dany profil do UI i logiki.
+        // Wpływa na: widoczność karty, selectMethod(), generateSeasonController().
+        // =======================================================
+        const ENABLE_VOLUME_PROFILE = false;
+        const ENABLE_FLUID_PROFILE  = false;
+
+        /**
+         * Zwraca true jeśli dana metoda jest aktualnie włączona flagą.
+         * Single source of truth dla wszystkich miejsc, które pytają
+         * o dostępność profilu.
+         */
+        function isMethodEnabled(methodId) {
+            if (methodId === 'volume') return ENABLE_VOLUME_PROFILE;
+            if (methodId === 'fluid')  return ENABLE_FLUID_PROFILE;
+            return true; // 'balanced' i inne — domyślnie aktywne
+        }
+
+        /**
+         * Ukrywa karty profili, których flaga jest wyłączona.
+         * Uruchamiana przy bootstrapie; stosuje klasę CSS `.is-disabled-feature`,
+         * dzięki czemu struktura HTML pozostaje nienaruszona.
+         */
+        function applyMethodFeatureFlags() {
+            document.querySelectorAll('.method-card[data-method]').forEach(card => {
+                const methodId = card.dataset.method;
+                if (!isMethodEnabled(methodId)) {
+                    card.classList.add('is-disabled-feature');
+                    card.classList.remove('active');
+                    const radio = card.querySelector('input[type="radio"]');
+                    if (radio) radio.checked = false;
+                } else {
+                    card.classList.remove('is-disabled-feature');
+                }
+            });
+        }
+
 // Obsługa wyboru metody (UI Logic)
         function selectMethod(methodId, cardElement) {
+            // Guard: wyłączone profile są martwe — nie zmieniamy stanu UI
+            if (!isMethodEnabled(methodId)) {
+                console.warn(`Profil "${methodId}" jest tymczasowo wyłączony (feature flag).`);
+                return;
+            }
+
             // 1. Zdejmij klasę 'active' ze wszystkich kart
             document.querySelectorAll('.method-card').forEach(el => el.classList.remove('active'));
             
@@ -1022,12 +1066,16 @@ function updateVolumeColors() {
                 const daysPerWeek    = parseInt(document.getElementById('daysPerWeek').value, 10);
                 const isAdvancedMode = document.getElementById('advancedMode').checked;
 
-                // Bezpieczne mapowanie metody — wyłącznie dozwolone wartości
+                // Bezpieczne mapowanie metody — wyłącznie dozwolone i WŁĄCZONE wartości.
+                // Feature flags (ENABLE_VOLUME_PROFILE / ENABLE_FLUID_PROFILE) działają jako
+                // ostatni bezpiecznik: nawet jeśli ktoś ręcznie odznaczy radio w devtools,
+                // generator i tak spadnie do 'balanced'.
                 const methodInput    = document.querySelector('input[name="trainingMethod"]:checked');
                 const allowedMethods = ['balanced', 'volume', 'fluid'];
-                const method         = allowedMethods.includes(methodInput?.value)
+                const rawMethod      = allowedMethods.includes(methodInput?.value)
                                            ? methodInput.value
                                            : 'balanced';
+                const method         = isMethodEnabled(rawMethod) ? rawMethod : 'balanced';
 
                 // ── KROK B: Walidacja fizjologiczna i biznesowa (Error Aggregator) ─
                 let hasErrors = false;
@@ -2443,6 +2491,7 @@ initVolumeSteppers();
 // Bootstrap: script.js is loaded with `defer`, DOM is ready at this point.
 initNavigation();
 initTopBarScroll();
+applyMethodFeatureFlags();
 
 // =======================================================
 // Read-only stepper: pola objętości — tylko +/- (brak edycji z klawiatury).

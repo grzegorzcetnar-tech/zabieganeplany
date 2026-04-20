@@ -745,6 +745,13 @@
             transform: scale(1);
         }
 
+        /* --- FEATURE TOGGLE: ukrywa profile treningowe wyłączone flagą w script.js --- */
+        /* Usuń tę regułę lub przełącz flagi ENABLE_VOLUME_PROFILE / ENABLE_FLUID_PROFILE,
+           aby przywrócić profile do UI bez utraty stylów i struktury HTML. */
+        .method-card.is-disabled-feature {
+            display: none !important;
+        }
+
         /* --- ERROR STATE (Walidacja Czasu) --- */
         .input-group-m3.error {
             border-bottom: 2px solid #B3261E; /* M3 Error Color */
