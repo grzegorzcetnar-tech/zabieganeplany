@@ -511,29 +511,6 @@
             font-weight: 500;
         }
 
-        /* --- M3 OPTIMAL VALUE COLOR --- */
-        .stepper-input.optimal-val {
-            color: #146c2e !important;
-            transition: color 0.3s ease;
-        }
-
-        /* Select gdy aktualnie wybrana opcja jest optymalna (Standard M3) */
-        select.optimal-val {
-            color: #146c2e !important;
-            border-radius: 8px !important;
-            box-shadow: inset 0 0 0 2px #146c2e !important;
-            border: none !important;
-            background-color: #f0fdf4 !important;
-            transition: color 0.2s, background-color 0.2s, box-shadow 0.2s;
-        }
-
-        /* Pojedyncza <option> oznaczona jako optymalna (desktop native dropdown) */
-        option.option-optimal {
-            background-color: #d1fae5;
-            color: #146c2e;
-            font-weight: 600;
-        }
-
       /* --- M3 DATE PICKER (BUTTON TRIGGER VERSION) --- */
         
         /* 1. Reset Inputa - ukrywamy systemowy trójkącik/ikonę całkowicie */

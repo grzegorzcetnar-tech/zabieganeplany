@@ -210,8 +210,8 @@ const getSecondsFromPace = (paceString) => {
         // 2. LOGIKA SILNIKA (Najbliższy Sąsiad)
         // =======================================================
         // Wzorce dni treningowych (0=Wolne, 1=Trening)
+        // Minimalna liczba dni treningowych = 3 (wariant 2-dniowy wycofany z UI i silnika).
         const dayPatterns = {
-            2: [0, 0, 0, 0, 1, 0, 1], // Piątek, Niedziela
             3: [0, 1, 0, 1, 0, 0, 1], // Wt, Czw, Nd
             4: [0, 1, 0, 1, 0, 1, 1], // Wt, Czw, Sob, Nd
             5: [0, 1, 1, 1, 0, 1, 1], // Wt, Śr, Czw, Sob, Nd
@@ -701,7 +701,6 @@ function updateVolumeColors() {
     const distSelect = document.getElementById('targetDist');
     const startInput = document.getElementById('startVol');
     const targetVolInput = document.getElementById('targetVol');
-    const daysSelect = document.getElementById('daysPerWeek');
 
     if (!distSelect || !startInput || !targetVolInput) return;
 
@@ -722,45 +721,6 @@ function updateVolumeColors() {
         // czarny (neutral) w każdym innym przypadku — bez trybu danger.
         targetVolInput.classList.remove('volume-optimal', 'volume-danger', 'volume-neutral', 'optimal-vol');
         targetVolInput.classList.add(targetVol >= startVol + 5 ? 'volume-optimal' : 'volume-neutral');
-
-        if (!dist || !daysSelect) return;
-
-        // ── OZNACZANIE OPTYMALNEJ LICZBY DNI (logika gęstości km/dzień) ───
-        const rules = {
-            'k10': { minKmPerDay: 4, maxKmPerDay: 12 },
-            'hm':  { minKmPerDay: 6, maxKmPerDay: 16 },
-            'mar': { minKmPerDay: 8, maxKmPerDay: 30 }
-        };
-        const t = rules[dist];
-
-        const recommendedDays = [];
-        Array.from(daysSelect.options).forEach(option => {
-            const optDays = parseInt(option.value);
-            if (!optDays) return;
-            const oStart = startVol  / optDays;
-            const oPeak  = targetVol / optDays;
-            const isOpt  = t && oStart >= t.minKmPerDay && oPeak <= t.maxKmPerDay
-                           && startVol > 0 && targetVol > 0;
-            if (isOpt) recommendedDays.push(optDays);
-        });
-
-        let isCurrentSelectionOptimal = false;
-
-        Array.from(daysSelect.options).forEach(option => {
-            const val = parseInt(option.value);
-            const baseText = option.text.replace(' (Zalecane)', '');
-
-            if (recommendedDays.includes(val)) {
-                option.classList.add('option-optimal');
-                option.text = baseText + ' (Zalecane)';
-                if (option.selected) isCurrentSelectionOptimal = true;
-            } else {
-                option.classList.remove('option-optimal');
-                option.text = baseText;
-            }
-        });
-
-        daysSelect.classList.toggle('optimal-val', isCurrentSelectionOptimal);
     });
 }
 
@@ -1292,11 +1252,10 @@ function updateVolumeColors() {
             const toKm = m => parseFloat((m / PACE_FOR_KM).toFixed(1));
 
             // ── 4. Wzorce dni tygodnia — 48h przerwy między sesjami ──
-            //   2 dni: Pt (4), Nd (6)           → 2-dniowa przerwa przed ndz.
             //   3 dni: Wt (1), Czw (3), Nd (6)  → klasyczny schemat 48h
             //   4 dni: Pn (0), Śr (2), Pt (4), Nd (6)
+            // Minimalna liczba dni treningowych = 3 (wariant 2-dniowy wycofany).
             const DAY_SLOTS = {
-                2: { active: [4, 6],       qualitySlot: null },
                 3: { active: [1, 3, 6],    qualitySlot: 3    }, // Czwartek = akcent
                 4: { active: [0, 2, 4, 6], qualitySlot: 2    }  // Środa = akcent
             };
@@ -1311,7 +1270,7 @@ function updateVolumeColors() {
              */
             const buildAdaptiveDays = (longMin, easyMin, includeQuality) => {
                 const days  = [];
-                const dpw   = Math.min(4, Math.max(2, params.daysPerWeek));
+                const dpw   = Math.min(4, Math.max(3, params.daysPerWeek));
                 const cfg   = DAY_SLOTS[dpw] || DAY_SLOTS[3];
                 const { active, qualitySlot } = cfg;
 
@@ -1389,7 +1348,7 @@ function updateVolumeColors() {
                     if (longMin > config.maxLong) longMin = config.maxLong;
 
                     // ── C. Redystrybucja na biegi spokojne (Easy Runs) ────────
-                    const dpw        = Math.min(4, Math.max(2, params.daysPerWeek));
+                    const dpw        = Math.min(4, Math.max(3, params.daysPerWeek));
                     const easyDaysCount = dpw - 1; // wszystkie dni poza niedzielą (Long)
 
                     let easyMin = Math.round((rawWeekMin - longMin) / easyDaysCount);
